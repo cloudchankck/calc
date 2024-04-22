@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>공학용 계산기</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f7f7f7;
+        margin: 0;
+    }
+
+    .calculator {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        width: 300px;
+    }
+
+    .output {
+        background-color: #e0e0e0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 1.5em;
+        text-align: right;
+        margin-bottom: 10px;
+    }
+
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    button {
+        background-color: #009688;
+        border: none;
+        border-radius: 4px;
+        padding: 10px;
+        color: white;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    button:active {
+        background-color: #00796b;
+    }
+</style>
+</head>
+<body>
+<div class="calculator">
+    <div class="output" id="output">0</div>
+    <div class="buttons">
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="calculate('/')">/</button>
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="calculate('*')">x</button>
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="calculate('-')">-</button>
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+        <button onclick="calculate('+')">+</button>
+        <button onclick="evaluate()">=</button>
+        <button onclick="calculate('sin')">sin</button>
+        <button onclick="calculate('cos')">cos</button>
+        <button onclick="calculate('tan')">tan</button>
+        <button onclick="clearOutput()">C</button>
+    </div>
+</div>
+
+<script>
+    let expression = '';
+
+    function append(number) {
+        expression += number;
+        document.getElementById('output').innerText = expression;
+    }
+
+    function clearOutput() {
+        expression = '';
+        document.getElementById('output').innerText = '0';
+    }
+
+    function calculate(operation) {
+        if (operation === 'sin' || operation === 'cos' || operation === 'tan') {
+            expression = Math[operation](expression * Math.PI / 180).toFixed(4);
+        } else {
+            expression += ' ' + operation + ' ';
+        }
+        document.getElementById('output').innerText = expression;
+    }
+
+    function evaluate() {
+        try {
+            expression = eval(expression).toString();
+        } catch {
+            expression = 'Error!';
+        }
+        document.getElementById('output').innerText = expression;
+    }
+</script>
+</body>
+</html>
